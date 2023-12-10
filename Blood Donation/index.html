@@ -1,0 +1,53 @@
+<?php
+// php tag start....
+// session has been start by isnerting the below command 
+    session_start();
+    // php tag end
+    ?>
+    <!-- html tag strt from here to customize the web page -->
+<html>
+<link rel="stylesheet" href="css/style.css">
+<style>
+   body{
+        background-image: url("home.jpg");
+        height: 100%; 
+          background-position: center;
+            background-repeat: no-repeat;
+              background-size: cover;
+    }
+</style>
+
+<title>online</title>
+<!-- Body tag has been start from here -->
+<body>
+    <!-- php tag has been added to add the navbar function into the index page -->
+      <?php 
+      // require function has been added 
+      require 'navbar/navbar.php'; 
+      ?>
+<!-- heading tag has been inserted -->
+
+<!-- div tag started -->
+  <div class="topnav">
+  <a  href="#home">Home</a>
+  <a href="login2.php">User</a>
+  <a href="login.php">Admin</a>
+   <a href="abs2.php">Check Availbility</a>
+ 
+</div>
+    <!-- php tag has been added to add the message function into the index page -->
+
+   <?php
+      // require function has been added 
+    require 'message.php'; 
+    ?>
+        <!-- php tag has been added to add the footer function into the index page -->   
+
+    <?php
+    // require function has been added 
+    require 'footer.php'; 
+    ?>
+<!-- body tag stoped -->
+</body>
+<!-- html tag end -->
+</html>
