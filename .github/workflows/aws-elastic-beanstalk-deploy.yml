@@ -1,0 +1,41 @@
+name: Deploy to AWS Elastic Beanstalk
+
+on:
+  push:
+    branches:
+      - main  # or your main branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4'  # or your preferred PHP version
+
+      - name: Install dependencies
+        run: |
+          composer install --no-dev
+
+      - name: Create Elastic Beanstalk application version
+        run: |
+          zip -r application.zip . -x "*.git*" "*.github/*" "composer.*" ".env"
+          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws configure set region ${{ secrets.AWS_REGION }}
+          aws elasticbeanstalk create-application-version \
+            --application-name YourApplicationName \
+            --version-label $GITHUB_SHA \
+            --source-bundle S3Bucket=elasticbeanstalk-yourbucketname, S3Key=application.zip
+
+      - name: Deploy to Elastic Beanstalk
+        run: |
+          aws elasticbeanstalk update-environment \
+            --environment-name YourEnvironmentName \
+            --version-label $GITHUB_SHA
+
